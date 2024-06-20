@@ -13,7 +13,7 @@ The Student Enrollment App is a web application for managing students, subjects,
 
 - **Django**: Web framework used to build the application.
 - **SQLite**: Database for development and testing.
-- 
+  
 ## Getting Started
 
 ### Prerequisites
