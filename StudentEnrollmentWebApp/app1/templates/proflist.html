@@ -1,0 +1,16 @@
+{% block title %}
+    Lista profesora
+{% endblock %}
+
+{% block content %}
+{% for user in users %}
+    <div class="border border-steel mb-3 p-2">
+        {{ user.username }}
+        {{ user.first_name }}
+        {{ user.last_name }}
+        <a href="{% url 'edit_prof' user_id=user.id %}">Edit</a>
+        <a href="{% url 'prof_details' user_id=user.id %}">Details</a>
+    </div>
+    {% endfor %}
+    <a href="{% url 'home' user_id=user.id %}">Back to home</a>
+{% endblock %}

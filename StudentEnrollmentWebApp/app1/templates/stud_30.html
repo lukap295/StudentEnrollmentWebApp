@@ -1,0 +1,11 @@
+{% block content %}
+    <h1>Studenti sa vise od 30 ECTS</h1>
+    <ul>
+        {% for student, total_ects in stud_30 %}
+            <li>{{ student.username }} - Total ECTS: {{ total_ects }}</li>
+        {% empty %}
+            <li>Ne postoji student sa 30 ili vise ECTS.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'home' user_id=request.user.id %}">Back to home</a>
+{% endblock %}

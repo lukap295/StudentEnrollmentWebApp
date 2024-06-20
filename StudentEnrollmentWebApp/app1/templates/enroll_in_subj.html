@@ -1,0 +1,9 @@
+{% block content %}
+    <h1>Enroll in Subject</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enroll</button>
+    </form>
+    <a href="{% url 'home' user_id %}">Back to Home</a>
+{% endblock %}

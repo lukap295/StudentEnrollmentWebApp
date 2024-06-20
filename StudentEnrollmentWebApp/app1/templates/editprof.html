@@ -1,0 +1,13 @@
+{% block title %}
+    Edit Profesor
+{% endblock %}
+
+{% block content %}
+    <h1>Edit profesor: {{ profesor.Ime }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="/proflist">Back to Professor List</a>
+{% endblock %}

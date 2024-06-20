@@ -1,0 +1,15 @@
+{% block content %}
+    <h1>Professor Details: {{ profesor.username }}</h1>
+    <p><strong>First Name:</strong> {{ profesor.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ profesor.last_name }}</p>
+    <p><strong>Email:</strong> {{ profesor.email }}</p>
+    <p><strong>Subjects:</strong></p>
+    <ul>
+        {% for subject in subjects %}
+            <li>{{ subject.Ime }}</li>
+        {% empty %}
+            <li>No subjects found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'proflist' %}">Back to Professor List</a>
+{% endblock %}

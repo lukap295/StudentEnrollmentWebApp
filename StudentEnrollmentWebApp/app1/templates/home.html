@@ -1,0 +1,33 @@
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %} {% csrf_token %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Status: {{ user.get_status_display }}</p>
+    <p>Role: {{ user.role }}</p><br>
+    {% if user.role == 'admin' %}
+    <a href="/enroll_in_subj">Upisi predmet</a><br><br>
+
+    <a href="/studlist">Lista Studenata</a><br>
+    <a href="/proflist">Lista Profesora</a><br>
+    <a href="/subjlist">Lista Predmeta</a><br><br>
+
+    <a href="/addsubj">Dodaj Predmet</a><br>
+    <a href="/addstud">Dodaj Studenta</a><br>
+    <a href="/addprof">Dodaj Profesora</a><br><br>
+
+    <a href="{% url 'stud_30' %}">Studenti sa 30 ECTS</a>
+    
+
+    {% elif user.role == 'stu' %}
+    <a href="/enroll_in_subj">Upisi predmet</a><br><br>
+    <a href="{% url 'enrollment_list' user.id %}">Upisni list</a>
+    
+    {% elif user.role == 'prof' %}
+        <a href="{% url 'prof_subj' %}">My Subjects</a><br><br>
+    {% endif %}
+
+    <br><a href="/logout">Sign out</a><br>
+{% endblock %}

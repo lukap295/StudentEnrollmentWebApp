@@ -1,0 +1,45 @@
+{% block title %}
+    Enrolled Students
+{% endblock %}
+
+{% block content %}
+    <h1>Enrolled Students for {{ subject.Ime }}</h1>
+    
+    <form method="get" action="{% url 'enr_stud' subject_id=subject.id %}">
+        <label for="status_filter">Filter by status:</label>
+        <select name="status_filter" id="status_filter">
+            <option value="">All</option>
+            <option value="enrolled" {% if request.GET.status_filter == 'enrolled' %}selected{% endif %}>Enrolled</option>
+            <option value="passed" {% if request.GET.status_filter == 'passed' %}selected{% endif %}>Passed</option>
+            <option value="failed" {% if request.GET.status_filter == 'failed' %}selected{% endif %}>Failed</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <ul>
+        {% for enrollment in enrollments %}
+            <li>
+                {{ enrollment.student.username }} -- {{ enrollment.get_status_display }}
+                {% if user.role == 'prof' %}
+                    <form method="post" action="{% url 'enr_stud' subject_id=subject.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="enrollment_id" value="{{ enrollment.id }}">
+                        <select name="status">
+                            <option value="enrolled" {% if enrollment.status == 'enrolled' %}selected{% endif %}>Enrolled</option>
+                            <option value="passed" {% if enrollment.status == 'passed' %}selected{% endif %}>Passed</option>
+                            <option value="failed" {% if enrollment.status == 'failed' %}selected{% endif %}>Failed</option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No students enrolled in this subject.</li>
+        {% endfor %}
+    </ul>
+    {% if user.role == 'prof' %}
+        <a href="{% url 'prof_subj' %}">Back to subjects</a>
+    {% else %}
+        <a href="{% url 'subj_list' %}">Back to Subject List</a>
+    {% endif %}
+{% endblock %}

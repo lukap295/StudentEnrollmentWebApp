@@ -1,0 +1,11 @@
+{% block content %}
+    <h1>Subject Details: {{ subject.Ime }}</h1>
+    <p><strong>First Name:</strong> {{ subject.Kod }}</p>
+    <p><strong>Last Name:</strong> {{ subject.Program }}</p>
+    <p><strong>ECTS:</strong> {{ subject.ECTS }}</p>
+    <p><strong>Semestar - Redovni</strong> {{ subject.sem_red }}</p>
+    <p><strong>Semestar - Izvanredni</strong> {{ subject.sem_izv }}</p>
+    <p><strong>Izborni</strong> {{ subject.izborni}}</p>
+    <p><strong>Nositelj predmeta: </strong> {{ subject.nositelj }}</p>
+    <a href="{% url 'subj_list' %}">Back to Subject List</a>
+{% endblock %}

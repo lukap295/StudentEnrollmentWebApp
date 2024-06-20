@@ -1,0 +1,18 @@
+{% block title %}
+    My Subjects
+{% endblock %}
+
+{% block content %}
+    <h1>Subjects Taught by {{ user.username }}</h1>
+    {% if subjects %}
+        <ul>
+            {% for subj in subjects %}
+                <li>{{ subj.Ime }} -- ECTS: {{ subj.ECTS }}</li>
+                <a href="{% url 'enr_stud' subject_id=subj.id %}">Enrolled Students</a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No subjects found.</p>
+    {% endif %}
+    <a href="{% url 'home' user_id=user.id %}">Back to Home</a>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% block content %}
+    <h1>Enrollment List for {{ student.username }}</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if user.role == 'admin' %}
+        <h2>Add Subject</h2>
+        <form method="post" action="{% url 'add_enrollment' student.id %}">
+            {% csrf_token %}
+            <label for="subject">Subject:</label>
+            <select name="subject" id="subject">
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.Ime }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    {% endif %}
+    
+    <ul>
+        {% for enrollment in enrollments %}
+            <li>
+                {{ enrollment.subject.Ime }} - Status: {{ enrollment.get_status_display }} - Sem: {{ enrollment.subject.sem_red }} - ECTS: {{ enrollment.subject.ECTS }}
+                {% if user.role == 'admin' or user.role == 'prof' %}
+                    <form method="post" action="{% url 'update_enrollment' enrollment.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <select name="status">
+                            <option value="enrolled" {% if enrollment.status == 'enrolled' %}selected{% endif %}>Enrolled</option>
+                            <option value="passed" {% if enrollment.status == 'passed' %}selected{% endif %}>Passed</option>
+                            <option value="failed" {% if enrollment.status == 'failed' %}selected{% endif %}>Failed</option>
+                        </select>
+                        <button type="submit" class="btn btn-secondary">Update</button>
+                    </form>
+                {% endif %}
+                {% if enrollment.status != 'passed' and enrollment.status != 'failed' %}
+                    <form method="post" action="{% url 'delete_enrollment' enrollment.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                {% else %}
+                    <button type="button" class="btn btn-danger" disabled>Cannot delete</button>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No subjects enrolled.</li>
+        {% endfor %}
+    </ul>
+    {% if user.role == 'admin' %}
+        <a href="{% url 'studlist' %}">Back to Student List</a>
+    {% elif user.role == 'stu' %}
+        <a href="{% url 'home' user_id=user.id %}">Back to home</a>
+    {% endif %}
+{% endblock %}
